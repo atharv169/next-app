@@ -19,7 +19,7 @@ export async function GET(request:NextRequest,
 // PATCH to update one or more properties
 
 export async function PUT(request:NextRequest, 
-    {params}:{params:{id:number}}){
+    {params}:{params:{id:string}}){
     //validate the request body
     const body=await request.json();
    const validation= schema.safeParse(body);
@@ -27,10 +27,19 @@ export async function PUT(request:NextRequest,
     if(!validation.success)
     return NextResponse.json(validation.error.errors,{status:400})
     //fetch the user with the given id
-    if(params.id>10)
+   const user =await prisma.user.findUnique({
+        where:{id:parseInt(params.id)}
+    })
+    if(!user)
     return NextResponse.json({error:'user is not found'},{status:404})
-
-    return NextResponse.json({id:1,name:body.name})
+   const updateUser=await prisma.user.update({
+    where:{id:user.id},
+    data:{
+        name:body.name,
+        email:body.email
+    }
+   })
+    return NextResponse.json(updateUser)
     //if doesnt exist,return
     // Update the user return the updated user
 }
