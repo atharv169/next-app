@@ -7,7 +7,7 @@ import styles from './ProductCard.module.css'
 
 const ProductCard = () => {
   return (
-    <div className='p-5 my-5 bg-sky-400 text-white text-xl hover:bg-sky-600'>
+    <div className='p-5 my-5 h-8 w-[150px] bg-sky-400 text-white text-xl hover:bg-sky-600 flex justify-center'>
       <AddToCart/>
     </div>
   )
